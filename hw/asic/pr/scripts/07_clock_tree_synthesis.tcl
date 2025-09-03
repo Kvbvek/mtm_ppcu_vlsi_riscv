@@ -8,9 +8,9 @@
 # - "Leaf" - refers to wires connect to the DFFs' inputs, and DFFs' themself
 #
 # TODO: After running the script, check in the reports:
-# 1. How many clock buffers were used.
+# 1. How many clock buffers were used. - 17
 # 2. Check what is the Worst Rising/Falling Trunk/Leaf Slew. Are the values
-# within the requirements?
+# within the requirements? - Worst Falling Trunk Slew 0.213
 # 3. Are there any other violations?
 # TODO: Open "Clock Tree Debugger" and make a screenshot of the clock tree structure.
 

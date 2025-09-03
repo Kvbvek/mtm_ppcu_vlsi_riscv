@@ -17,7 +17,7 @@ set_db init_ground_nets {VSS}
 # multi-corner) configuration.
 #
 # TODO: link the synthesis RESULT directory locally with the same name, e.g.:
-# ln -s ../synth/RESULTS .
+ln -s ../synth/RESULTS .
 
 source ./results/${DESIGN}.invs_setup.tcl
 

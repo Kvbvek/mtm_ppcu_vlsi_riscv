@@ -6793,14 +6793,14 @@ input [3:0]  btn;
 // TODO: replace input pad names with the correct ones
 //------------------------------------------------------------------------------
 
-PDIDGZ u_btn_3_ ( .C(btn_core[3]), .PAD(btn[3]));
-PDIDGZ u_btn_2_ ( .C(btn_core[2]), .PAD(btn[2]));
-PDIDGZ u_btn_1_ ( .C(btn_core[1]), .PAD(btn[1]));
-PDIDGZ u_btn_0_ ( .C(btn_core[0]), .PAD(btn[0]));
-PDIDGZ u_clk ( .C(clk_core), .PAD(clk));
-PDIDGZ u_rst_n ( .C(rst_n_core), .PAD(rst_n));
-PDIDGZ u_spi_miso ( .C(spi_miso_core), .PAD(spi_miso));
-PDIDGZ u_uart_sin ( .C(uart_sin_core), .PAD(uart_sin));
+PDISDGZ u_btn_3_ ( .C(btn_core[3]), .PAD(btn[3]));
+PDISDGZ u_btn_2_ ( .C(btn_core[2]), .PAD(btn[2]));
+PDISDGZ u_btn_1_ ( .C(btn_core[1]), .PAD(btn[1]));
+PDISDGZ u_btn_0_ ( .C(btn_core[0]), .PAD(btn[0]));
+PDISDGZ u_clk ( .C(clk_core), .PAD(clk));
+PDISDGZ u_rst_n ( .C(rst_n_core), .PAD(rst_n));
+PDISDGZ u_spi_miso ( .C(spi_miso_core), .PAD(spi_miso));
+PDISDGZ u_uart_sin ( .C(uart_sin_core), .PAD(uart_sin));
 
 endmodule
 
@@ -6828,15 +6828,15 @@ input  [3:0] led_core;
 // TODO: replace cell names to the correct ones
 //------------------------------------------------------------------------------
 
-PDO24CDG u_led_3_ ( .PAD(led[3]), .I(led_core[3]));
-PDO24CDG u_led_2_ ( .PAD(led[2]), .I(led_core[2]));
-PDO24CDG u_led_1_ ( .PAD(led[1]), .I(led_core[1]));
-PDO24CDG u_led_0_ ( .PAD(led[0]), .I(led_core[0]));
-PDO24CDG u_spi_mosi ( .PAD(spi_mosi), .I(spi_mosi_core));
-PDO24CDG u_spi_sck ( .PAD(spi_sck), .I(spi_sck_core));
-PDO24CDG u_spi_ss ( .PAD(spi_ss), .I(spi_ss_core));
-PDO24CDG u_uart_sout ( .PAD(uart_sout), .I(uart_sout_core));
-PDO24CDG u_boot_sequence_done ( .PAD(boot_sequence_done),
+PDO16CDG u_led_3_ ( .PAD(led[3]), .I(led_core[3]));
+PDO16CDG u_led_2_ ( .PAD(led[2]), .I(led_core[2]));
+PDO16CDG u_led_1_ ( .PAD(led[1]), .I(led_core[1]));
+PDO16CDG u_led_0_ ( .PAD(led[0]), .I(led_core[0]));
+PDO16CDG u_spi_mosi ( .PAD(spi_mosi), .I(spi_mosi_core));
+PDO16CDG u_spi_sck ( .PAD(spi_sck), .I(spi_sck_core));
+PDO16CDG u_spi_ss ( .PAD(spi_ss), .I(spi_ss_core));
+PDO16CDG u_uart_sout ( .PAD(uart_sout), .I(uart_sout_core));
+PDO16CDG u_boot_sequence_done ( .PAD(boot_sequence_done),
     .I(boot_sequence_done_core));
 
 endmodule
@@ -6864,16 +6864,21 @@ module pads_pwr ( );
 PVDD1DGZ VDD1_1_ ( .VDD() );
 PVDD1DGZ VDD1_0_ ( .VDD() );
     
-// io vdd    
-PVDD2DGZ VDD2_1_ ( .VDDPST() );
+// io vdd 5   
 PVDD2DGZ VDD2_0_ ( .VDDPST() );
+PVDD2DGZ VDD2_1_ ( .VDDPST() );
+PVDD2DGZ VDD2_2_ ( .VDDPST() );
+PVDD2DGZ VDD2_3_ ( .VDDPST() );
+PVDD2DGZ VDD2_4_ ( .VDDPST() );
     
 // io power on control (only one)
 PVDD2POC VDD2POC ( .VDDPST() );
     
-// common ground    
-PVSS3DGZ VSS3_1_ ( .VSS() );
+// common ground 4   
 PVSS3DGZ VSS3_0_ ( .VSS() );
+PVSS3DGZ VSS3_1_ ( .VSS() );
+PVSS3DGZ VSS3_2_ ( .VSS() );
+PVSS3DGZ VSS3_3_ ( .VSS() );
 
 endmodule
 

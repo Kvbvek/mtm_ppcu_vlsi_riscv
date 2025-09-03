@@ -7,6 +7,7 @@ delete_all_floorplan_objs
 # TODO: initialize floorplan to the required size
 # Menu: Floorplan -> Specify Floorplan...
 # Function: create_floorplan
+create_floorplan -site core -core_size 720.0 720.0 105.0 105.0 105.0 105.0
 
 # TODO: Generate template for IO placement:
 # Menu: File -> Save -> IO File... , check the boxes: sequence, Generate template IO File"
@@ -19,18 +20,20 @@ delete_all_floorplan_objs
 
 # TODO: Read created IO configuration. You can do this many times
 # Menu: File -> Load -> I/O File...
+read_io_file mtm_riscv_chip.io
 
 # TODO: Add 12um placement halo around blocks to reserve the place for the power ring
 # Menu: Floorplan -> Edit Flooplan -> Edit Halo...
 # Function: create_place_halo
+create_place_halo -halo_deltas {12 12 12 12} -all_blocks
 
 # TODO: Set the desired location of the instruction RAM
-set myram0 [get_cells u_mtm_riscv_soc/u_peripherals_unit/u_memory_unit_u_instr_ram_u_ram/u_TS1N40LPB4096X32M4M]
-set_db $myram0 .location {0 0}
+set myram0 [get_cells u_soc/u_code_ram_u_ram/u_TS1N40LPB4096X32M4M]
+set_db $myram0 .location {495 510}
 
 # TODO: Set the desired location of the data RAM
-set myram1 [get_cells u_mtm_riscv_soc/u_peripherals_unit/u_memory_unit_u_data_ram/u_ram/u_TS1N40LPB4096X32M4M]
-set_db $myram1 .location {0 0}
+set myram1 [get_cells u_soc/u_data_ram/u_ram/u_TS1N40LPB4096X32M4M]
+set_db $myram1 .location {680 510}
 
 # TODO: Cut core rows to placement halo
 # Menu: makes problems. Run this command:
@@ -42,12 +45,25 @@ split_row
 #       Use M6,M7,M8. M8 will cover M6
 # Menu: Power -> Power Planning -> Add Ring …
 # Functions: set_db, add_rings
+set_db add_rings_target default ; set_db add_rings_extend_over_row 0 ; set_db add_rings_ignore_rows 0 ; set_db add_rings_avoid_short 0 ; set_db add_rings_skip_shared_inner_ring none ; set_db add_rings_stacked_via_top_layer AP ; set_db add_rings_stacked_via_bottom_layer M1 ; set_db add_rings_via_using_exact_crossover_size 1 ; set_db add_rings_orthogonal_only true ; set_db add_rings_skip_via_on_pin { standardcell } ; set_db add_rings_skip_via_on_wire_shape { noshape }
+add_rings -nets VSS -type core_rings -follow core -layer {top M7 bottom M7 left M6 right M6} -width {top 4.5 bottom 4.5 left 4.5 right 4.5} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 8 bottom 8 left 8 right 8} -center 0 -threshold 0 -jog_distance 0 -snap_wire_center_to_grid none -use_wire_group 1 -use_wire_group_bits 5
+
+set_db add_rings_target default ; set_db add_rings_extend_over_row 0 ; set_db add_rings_ignore_rows 0 ; set_db add_rings_avoid_short 0 ; set_db add_rings_skip_shared_inner_ring none ; set_db add_rings_stacked_via_top_layer AP ; set_db add_rings_stacked_via_bottom_layer M1 ; set_db add_rings_via_using_exact_crossover_size 1 ; set_db add_rings_orthogonal_only true ; set_db add_rings_skip_via_on_pin { standardcell } ; set_db add_rings_skip_via_on_wire_shape { noshape }
+add_rings -nets VSS -type core_rings -follow core -layer {top M7 bottom M7 left M8 right M8} -width {top 4.5 bottom 4.5 left 4.5 right 4.5} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 8 bottom 8 left 8 right 8} -center 0 -threshold 0 -jog_distance 0 -snap_wire_center_to_grid none -use_wire_group 1 -use_wire_group_bits 5
+
+set_db add_rings_target default ; set_db add_rings_extend_over_row 0 ; set_db add_rings_ignore_rows 0 ; set_db add_rings_avoid_short 0 ; set_db add_rings_skip_shared_inner_ring none ; set_db add_rings_stacked_via_top_layer AP ; set_db add_rings_stacked_via_bottom_layer M1 ; set_db add_rings_via_using_exact_crossover_size 1 ; set_db add_rings_orthogonal_only true ; set_db add_rings_skip_via_on_pin { standardcell } ; set_db add_rings_skip_via_on_wire_shape { noshape }
+add_rings -nets VDD -type core_rings -follow core -layer {top M7 bottom M7 left M6 right M6} -width {top 4.5 bottom 4.5 left 4.5 right 4.5} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 44 bottom 44 left 44 right 44} -center 0 -threshold 0 -jog_distance 0 -snap_wire_center_to_grid none -use_wire_group 1 -use_wire_group_bits 5
+
+set_db add_rings_target default ; set_db add_rings_extend_over_row 0 ; set_db add_rings_ignore_rows 0 ; set_db add_rings_avoid_short 0 ; set_db add_rings_skip_shared_inner_ring none ; set_db add_rings_stacked_via_top_layer AP ; set_db add_rings_stacked_via_bottom_layer M1 ; set_db add_rings_via_using_exact_crossover_size 1 ; set_db add_rings_orthogonal_only true ; set_db add_rings_skip_via_on_pin { standardcell } ; set_db add_rings_skip_via_on_wire_shape { noshape }
+add_rings -nets VDD -type core_rings -follow core -layer {top M7 bottom M7 left M8 right M8} -width {top 4.5 bottom 4.5 left 4.5 right 4.5} -spacing {top 2 bottom 2 left 2 right 2} -offset {top 44 bottom 44 left 44 right 44} -center 0 -threshold 0 -jog_distance 0 -snap_wire_center_to_grid none -use_wire_group 1 -use_wire_group_bits 5
 
 # RAM rings
 # TODO: Create rings of 4.5um width around the RAM blocks. Extend the vertical
 # connections upwards and downwords to the core ring. Use M6 and M7
 # Menu: Power -> Power Planning -> Add Ring …
 # Functions: set_db, add_rings
+set_db add_rings_target default ; set_db add_rings_extend_over_row 0 ; set_db add_rings_ignore_rows 0 ; set_db add_rings_avoid_short 0 ; set_db add_rings_skip_shared_inner_ring none ; set_db add_rings_stacked_via_top_layer AP ; set_db add_rings_stacked_via_bottom_layer M1 ; set_db add_rings_via_using_exact_crossover_size 1 ; set_db add_rings_orthogonal_only true ; set_db add_rings_skip_via_on_pin { standardcell } ; set_db add_rings_skip_via_on_wire_shape { noshape }
+add_rings -nets {VSS VDD} -type block_rings -around each_block -layer {top M7 bottom M7 left M6 right M6} -width {top 4.5 bottom 4.5 left 4.5 right 4.5} -spacing {top 0.5 bottom 0.5 left 0.5 right 0.5} -offset {top 1 bottom 1 left 1 right 1} -center 0 -threshold 0 -jog_distance 0 -snap_wire_center_to_grid none
 
 
 # Add vertical stripes
@@ -58,11 +74,22 @@ split_row
 # Do not route the stripes over the blocks.
 # Menu: Power -> Power planning -> Add stripe...
 
+set_db add_stripes_ignore_block_check false ; set_db add_stripes_break_at none ; set_db add_stripes_route_over_rows_only false ; set_db add_stripes_rows_without_stripes_only false ; set_db add_stripes_extend_to_closest_target none ; set_db add_stripes_stop_at_last_wire_for_area false ; set_db add_stripes_partial_set_through_domain false ; set_db add_stripes_ignore_non_default_domains false ; set_db add_stripes_trim_antenna_back_to_shape none ; set_db add_stripes_spacing_type edge_to_edge ; set_db add_stripes_spacing_from_block 0 ; set_db add_stripes_stripe_min_length stripe_width ; set_db add_stripes_stacked_via_top_layer AP ; set_db add_stripes_stacked_via_bottom_layer M1 ; set_db add_stripes_via_using_exact_crossover_size false ; set_db add_stripes_split_vias false ; set_db add_stripes_orthogonal_only true ; set_db add_stripes_allow_jog { padcore_ring block_ring } ; set_db add_stripes_skip_via_on_pin { standardcell } ; set_db add_stripes_skip_via_on_wire_shape { noshape }
+add_stripes -nets {VDD VSS} -layer M6 -direction vertical -width 3 -spacing 5 -set_to_set_distance 70 -start_from left -start 483.5 -stop 639.4305 -switch_layer_over_obs false -area_blockage {497.5795 1003.1495 629.8525 1003.1495 629.8525 512.858 497.5795 512.858} -max_same_layer_jog_length 2 -pad_core_ring_top_layer_limit AP -pad_core_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid none
+
+set_db add_stripes_ignore_block_check false ; set_db add_stripes_break_at none ; set_db add_stripes_route_over_rows_only false ; set_db add_stripes_rows_without_stripes_only false ; set_db add_stripes_extend_to_closest_target none ; set_db add_stripes_stop_at_last_wire_for_area false ; set_db add_stripes_partial_set_through_domain false ; set_db add_stripes_ignore_non_default_domains false ; set_db add_stripes_trim_antenna_back_to_shape none ; set_db add_stripes_spacing_type edge_to_edge ; set_db add_stripes_spacing_from_block 0 ; set_db add_stripes_stripe_min_length stripe_width ; set_db add_stripes_stacked_via_top_layer AP ; set_db add_stripes_stacked_via_bottom_layer M1 ; set_db add_stripes_via_using_exact_crossover_size false ; set_db add_stripes_split_vias false ; set_db add_stripes_orthogonal_only true ; set_db add_stripes_allow_jog { padcore_ring block_ring } ; set_db add_stripes_skip_via_on_pin { standardcell } ; set_db add_stripes_skip_via_on_wire_shape { noshape }
+add_stripes -nets {VDD VSS} -layer M6 -direction vertical -width 3 -spacing 5 -set_to_set_distance 70 -start_from left -start 668.048 -stop 826.135 -switch_layer_over_obs false -area_blockage {682.407 1002.2995 814.693 1002.2995 814.693 511.078 682.407 511.078} -max_same_layer_jog_length 2 -pad_core_ring_top_layer_limit AP -pad_core_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid none
+
+set_db add_stripes_ignore_block_check false ; set_db add_stripes_break_at none ; set_db add_stripes_route_over_rows_only false ; set_db add_stripes_rows_without_stripes_only false ; set_db add_stripes_extend_to_closest_target none ; set_db add_stripes_stop_at_last_wire_for_area false ; set_db add_stripes_partial_set_through_domain false ; set_db add_stripes_ignore_non_default_domains false ; set_db add_stripes_trim_antenna_back_to_shape none ; set_db add_stripes_spacing_type edge_to_edge ; set_db add_stripes_spacing_from_block 0 ; set_db add_stripes_stripe_min_length stripe_width ; set_db add_stripes_stacked_via_top_layer AP ; set_db add_stripes_stacked_via_bottom_layer M1 ; set_db add_stripes_via_using_exact_crossover_size false ; set_db add_stripes_split_vias false ; set_db add_stripes_orthogonal_only true ; set_db add_stripes_allow_jog { padcore_ring block_ring } ; set_db add_stripes_skip_via_on_pin { standardcell } ; set_db add_stripes_skip_via_on_wire_shape { noshape }
+add_stripes -nets {VDD VSS} -layer M6 -direction vertical -width 3 -spacing 5 -set_to_set_distance 95 -start_from left -start 325 -stop 1015.4305 -switch_layer_over_obs false -area_blockage {433.2705 1088.57 882.4665 1088.57 882.4665 221.914 433.2705 221.914} -max_same_layer_jog_length 2 -pad_core_ring_top_layer_limit AP -pad_core_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid none
+
 # Add stripes horizontal
 # TODO: add horizontal strips of width 3, with spacing 5 for VDD and VSS nets.
 # Use M7.
 # Keep the stripe pitch below 100 um.
 # Do not route the stripes over the blocks.
+set_db add_stripes_ignore_block_check false ; set_db add_stripes_break_at none ; set_db add_stripes_route_over_rows_only false ; set_db add_stripes_rows_without_stripes_only false ; set_db add_stripes_extend_to_closest_target none ; set_db add_stripes_stop_at_last_wire_for_area false ; set_db add_stripes_partial_set_through_domain false ; set_db add_stripes_ignore_non_default_domains false ; set_db add_stripes_trim_antenna_back_to_shape none ; set_db add_stripes_spacing_type edge_to_edge ; set_db add_stripes_spacing_from_block 0 ; set_db add_stripes_stripe_min_length stripe_width ; set_db add_stripes_stacked_via_top_layer AP ; set_db add_stripes_stacked_via_bottom_layer M1 ; set_db add_stripes_via_using_exact_crossover_size false ; set_db add_stripes_split_vias false ; set_db add_stripes_orthogonal_only true ; set_db add_stripes_allow_jog { padcore_ring block_ring } ; set_db add_stripes_skip_via_on_pin { standardcell } ; set_db add_stripes_skip_via_on_wire_shape { noshape }
+add_stripes -nets {VDD VSS} -layer M7 -direction horizontal -width 3 -spacing 5 -set_to_set_distance 85 -start_from bottom -switch_layer_over_obs false -area_blockage {490.1495 1007.3705 819 1007.3705 819 503.3195 490.1495 503.3195} -max_same_layer_jog_length 2 -pad_core_ring_top_layer_limit AP -pad_core_ring_bottom_layer_limit M1 -block_ring_top_layer_limit AP -block_ring_bottom_layer_limit M1 -use_wire_group 0 -snap_wire_center_to_grid none
 
 # TODO: Connect pads to ring
 # Menu: Route -> Special route...
@@ -74,12 +101,14 @@ split_row
 # Basic -> SRoute = Block Pins
 # Basic -> Allow Layer Change = Off
 # Advanced -> Block Pins -> Pin selection = All Pins
+route_special -connect {pad_pin} -layer_change_range { M1(1) AP(9) } -block_pin_target {nearest_target} -pad_pin_port_connect {all_port all_geom} -pad_pin_target {nearest_target} -core_pin_target {first_after_row_end} -floating_stripe_target {block_ring pad_ring ring stripe ring_pin block_pin followpin} -allow_jogging 1 -crossover_via_layer_range { M1(1) AP(9) } -allow_layer_change 0 -block_pin use_lef -target_via_layer_range { M1(1) AP(9) }
+route_special -connect {block_pin} -layer_change_range { M1(1) AP(9) } -block_pin_target {nearest_target} -allow_jogging 1 -crossover_via_layer_range { M1(1) AP(9) } -allow_layer_change 0 -block_pin all -target_via_layer_range { M1(1) AP(9) }
 
 # TODO: Connect standard cell power
 # Menu: Route -> Special route...
 # Basic -> SRoute = Follow Pins
 # Basic -> Allow Layer Change = Off
 # Via Generation -> Make Via Connection to: = Core Ring, Stripe
-
+route_special -connect {core_pin} -layer_change_range { M1(1) AP(9) } -block_pin_target {nearest_target} -core_pin_target {first_after_row_end} -allow_jogging 1 -crossover_via_layer_range { M1(1) AP(9) } -allow_layer_change 0 -target_via_layer_range { M1(1) AP(9) }
 # save database
 write_db $saveDir/${DESIGN}_03_floorplan.db
