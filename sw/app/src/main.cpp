@@ -53,8 +53,8 @@ void send_sos(uint8_t pin) {
 }
 
 int main() {
-    // uart.write("INFO: application started\n");
-
+    uart.write("INFO: application started\n");
+    udelay(100);
     gpio.set_pin(0, true);
     
     // SOS -> gpio_dout[1]

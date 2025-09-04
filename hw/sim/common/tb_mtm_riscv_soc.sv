@@ -131,7 +131,7 @@ initial begin
     dump_memories();
 `endif
 
-    #2ms;
+    #200ms;
 
 `ifdef DEBUG
     dump_memories();
@@ -149,7 +149,7 @@ initial begin : watchdog
     $timeformat(-9, 0, " ns", 0);
 
 `ifdef KMIE_POST_LAYOUT_SIM
-    #50ms;
+    #200ms;
 `elsif KMIE_IMPLEMENT_ASIC
     #1.5s;
 `endif
