@@ -65,3 +65,4 @@ hw/sim/post_layout/xrun.key
 hw/sim/post_layout/xrun.log.*
 
 sw/build
+xvlog.pb
